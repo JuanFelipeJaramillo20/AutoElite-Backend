@@ -1,4 +1,4 @@
-package com.autoelite.AutoElite;
+package com.autoelite.AutoElite.publicaciones;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -7,13 +7,13 @@ import lombok.*;
 @Entity(name = "Publicaciones")
 @Getter
 @Setter
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(of = "id")
+@EqualsAndHashCode
 public class Publicaciones {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String fechaPublicacion;
     private String ciudad;
