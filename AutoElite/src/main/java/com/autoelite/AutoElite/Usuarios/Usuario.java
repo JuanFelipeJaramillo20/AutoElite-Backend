@@ -1,5 +1,9 @@
-package com.autoelite.AutoElite;
+package com.autoelite.AutoElite.Usuarios;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -9,8 +13,10 @@ import lombok.ToString;
 @ToString
 @Getter
 @Setter
+@Entity
 public class Usuario {
 
+    @Id
     private String id;
     private String nombres;
     private String email;
