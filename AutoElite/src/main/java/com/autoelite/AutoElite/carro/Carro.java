@@ -1,18 +1,17 @@
-package com.autoelite.AutoElite;
+package com.autoelite.AutoElite.carro;
 
 import jakarta.persistence.*;
 import lombok.*;
 
-@Table(name = "carro")
-@Entity(name = "Carro")
+@Entity
 @Getter
 @Setter
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(of = "id")
+@EqualsAndHashCode
 public class Carro {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String puertas;
     private String motor;
