@@ -1,19 +1,17 @@
-package com.autoelite.AutoElite;
+package com.autoelite.AutoElite.clasificacion;
 
 import jakarta.persistence.*;
 import lombok.*;
 
-@Table(name = "clasificacion")
-@Entity(name = "Clasificaion")
+@Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(of = "id")
+@EqualsAndHashCode
 public class Clasificacion {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String fecha;
     private String comentarios;
