@@ -3,8 +3,7 @@ package com.autoelite.AutoElite.publicaciones;
 import jakarta.persistence.*;
 import lombok.*;
 
-@Table(name = "publicaciones")
-@Entity(name = "Publicaciones")
+@Entity
 @Getter
 @Setter
 @ToString
