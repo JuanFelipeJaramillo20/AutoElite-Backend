@@ -1,4 +1,4 @@
-package com.autoelite.AutoElite.carro;
+package com.autoelite.AutoElite.Carro;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

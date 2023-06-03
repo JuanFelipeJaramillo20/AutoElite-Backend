@@ -4,16 +4,15 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 @EqualsAndHashCode
 @ToString
 @Getter
 @Setter
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 public class Usuario {
 
     @Id
@@ -23,16 +22,5 @@ public class Usuario {
     private String contrasena;
     private String telefono;
     private Byte rol;
-    public Usuario(String nombres, String email, String contrasena, String telefono, String id, Byte rol) {
-        this.nombres = nombres;
-        this.email = email;
-        this.contrasena = contrasena;
-        this.telefono = telefono;
-        this.id = id;
-        this.rol = rol;
-    }
-
-    public Usuario() {
-    }
 
 }
