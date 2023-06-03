@@ -3,9 +3,9 @@ package com.autoelite.AutoElite.Usuarios;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.*;
-//import org.springframework.security.core.GrantedAuthority;
-//import org.springframework.security.core.authority.SimpleGrantedAuthority;
-//import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.List;
@@ -17,7 +17,7 @@ import java.util.List;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-public class Usuario {
+public class Usuario implements UserDetails{
 
     @Id
     private String id;
@@ -28,7 +28,7 @@ public class Usuario {
     private Byte rol;
 
 
-/*
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return  List.of(new SimpleGrantedAuthority("ROLE_USER"));
@@ -62,5 +62,5 @@ public class Usuario {
     @Override
     public boolean isEnabled() {
         return true;
-    }*/
+    }
 }

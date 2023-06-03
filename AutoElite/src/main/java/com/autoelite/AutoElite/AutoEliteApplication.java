@@ -8,7 +8,7 @@ import org.springframework.context.annotation.PropertySources;
 @SpringBootApplication
 @PropertySources({
 		@PropertySource("classpath:application.properties"),
-		@PropertySource("classpath:application-secret.properties")
+		//@PropertySource("classpath:application-secret.properties")
 })
 public class AutoEliteApplication {
 	public static void main(String[] args) {

@@ -1,6 +1,7 @@
 package com.autoelite.AutoElite.Usuarios;
 
-//import com.autoelite.AutoElite.security.TokenServices;
+import com.autoelite.AutoElite.security.DatosJWTToken;
+import com.autoelite.AutoElite.security.TokenServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -15,11 +16,11 @@ import java.util.List;
 public class UsuarioController {
     private final UsuarioService usuarioService;
 
-    //@Autowired
+    @Autowired
     private AuthenticationManager authenticationManager;
 
-   // @Autowired
-    //private TokenServices tokenServices;
+    @Autowired
+    private TokenServices tokenServices;
 
     public UsuarioController(UsuarioService usuarioService) {
         this.usuarioService = usuarioService;
@@ -41,9 +42,9 @@ public class UsuarioController {
     }*/
     public ResponseEntity autenticarUsuario(@RequestBody Usuario usuario){
         Authentication authToken = new UsernamePasswordAuthenticationToken(usuario.getEmail(), usuario.getContrasena());
-        authenticationManager.authenticate(authToken);
-        //var JWTtoken = tokenServices.generarToken();
-        return ResponseEntity.ok().build();
+        var usuarioAutenticado = authenticationManager.authenticate(authToken);
+        var JWTtoken = tokenServices.generarToken((Usuario) usuarioAutenticado.getPrincipal());
+        return ResponseEntity.ok(new DatosJWTToken(JWTtoken));
     }
 
     @DeleteMapping("{idUsuario}")
