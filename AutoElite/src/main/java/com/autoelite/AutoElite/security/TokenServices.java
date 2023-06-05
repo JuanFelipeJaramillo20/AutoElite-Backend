@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.util.Collections;
 
 @Service
 public class TokenServices {
@@ -23,6 +24,10 @@ public class TokenServices {
                     .withIssuer("autoelite com")
                     .withSubject(usuario.getEmail())
                     .withClaim("id: ", usuario.getId())
+                    .withClaim("nombre: ", usuario.getNombres())
+                    .withClaim("telefono: ", usuario.getTelefono())
+                    .withClaim("password: ", usuario.getContrasena())
+                    //.withClaim("rol: ", Collections.singletonList(usuario.getRol()))
                     //.withExpiresAt(generarFechaExpiracion())
                     .sign(algorithm);
         } catch (JWTCreationException exception) {
