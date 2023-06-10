@@ -1,4 +1,4 @@
-package com.autoelite.AutoElite.security;
+/*package com.autoelite.AutoElite.security;
 
 import com.autoelite.AutoElite.Usuarios.UsuarioDAO;
 import jakarta.servlet.FilterChain;
@@ -33,10 +33,11 @@ public class SecurityFilter extends OncePerRequestFilter {
             if (email != null){
                 //token valido
                 var usuario = usuarioDAO.findByEmail(email);
-                var authentication = new UsernamePasswordAuthenticationToken(usuario, null, usuario.getAuthorities()); //forzar un inicio de sesion
+                var authentication = new UsernamePasswordAuthenticationToken(usuario, null, usuario.get().getAuthorities()); //forzar un inicio de sesion
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
         }
         filterChain.doFilter(request, response);
     }
 }
+*/

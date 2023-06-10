@@ -1,6 +1,8 @@
 package com.autoelite.AutoElite.Usuarios;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -25,13 +27,24 @@ public class Usuario implements UserDetails{
     private String email;
     private String contrasena;
     private String telefono;
-    private Byte rol;
+    @Enumerated(EnumType.STRING)
+    private RolUsuario rolUsuario;
+    private boolean bloqueado;
+    private boolean isEnabled = false;
 
+    public Usuario(String id, String nombres, String email, String telefono, String contrasena, RolUsuario rol) {
+        this.id =id;
+        this.nombres = nombres;
+        this.email = email;
+        this.telefono = telefono;
+        this.contrasena = contrasena;
+        this.rolUsuario = rol;
+    }
 
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return  List.of(new SimpleGrantedAuthority("ROLE_USER"));
+        return  List.of(new SimpleGrantedAuthority(rolUsuario.name()));
     }
 
     @Override
@@ -61,6 +74,6 @@ public class Usuario implements UserDetails{
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return isEnabled;
     }
 }
