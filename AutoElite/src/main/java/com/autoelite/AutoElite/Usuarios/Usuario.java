@@ -1,9 +1,6 @@
 package com.autoelite.AutoElite.Usuarios;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -29,18 +26,15 @@ public class Usuario implements UserDetails{
     private String telefono;
     @Enumerated(EnumType.STRING)
     private RolUsuario rolUsuario;
+    @Column(columnDefinition = "LONGTEXT")
+    private String token;
+
     private boolean bloqueado;
-    private boolean isEnabled = false;
+    private boolean isEnabled = true;
 
-    public Usuario(String id, String nombres, String email, String telefono, String contrasena, RolUsuario rol) {
-        this.id =id;
-        this.nombres = nombres;
-        this.email = email;
-        this.telefono = telefono;
-        this.contrasena = contrasena;
-        this.rolUsuario = rol;
+    public Usuario(String token) {
+        this.token = token;
     }
-
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

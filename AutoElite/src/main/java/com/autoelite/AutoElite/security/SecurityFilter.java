@@ -1,4 +1,4 @@
-/*package com.autoelite.AutoElite.security;
+package com.autoelite.AutoElite.security;
 
 import com.autoelite.AutoElite.Usuarios.UsuarioDAO;
 import jakarta.servlet.FilterChain;
@@ -40,4 +40,3 @@ public class SecurityFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 }
-*/

@@ -1,10 +1,13 @@
 package com.autoelite.AutoElite.login;
 
 import com.autoelite.AutoElite.Usuarios.Usuario;
-import com.autoelite.AutoElite.registro.token.ConfirmationToken;
-import com.autoelite.AutoElite.registro.token.ConfirmationTokenRepository;
+import com.autoelite.AutoElite.Usuarios.UsuarioDAO;
+import com.autoelite.AutoElite.Usuarios.UsuarioService;
 import com.autoelite.AutoElite.security.DatosJWTToken;
 import com.autoelite.AutoElite.security.TokenServices;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.TypedQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -22,17 +25,25 @@ public class AutenticacionController {
     @Autowired
     private TokenServices tokenServices;
 
+
     @Autowired
-    private ConfirmationTokenRepository tokenRepository;
+    private UsuarioDAO usuarioDAO;
 
+    @Autowired
+    private UsuarioService usuarioService;
 
-    private Usuario usuario;
+    @PersistenceContext
+    private EntityManager entityManager;
 
     @PostMapping
-    public ResponseEntity autenticarUsuario(@RequestBody LoginRequest loginRequest){
+    public ResponseEntity autenticarUsuario(@RequestBody Usuario loginRequest){
         Authentication authToken = new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getContrasena());
         var usuarioAutenticado = authenticationManager.authenticate(authToken);
         var JWTtoken = tokenServices.generarToken((Usuario) usuarioAutenticado.getPrincipal());
+
+        usuarioService.updateToken(loginRequest, JWTtoken);
+
+
         return ResponseEntity.ok(new DatosJWTToken(JWTtoken));
     }
 
