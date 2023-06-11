@@ -21,12 +21,13 @@ public class Usuario implements UserDetails{
     @Id
     private String id;
     private String nombres;
+    @Column(unique = true)
     private String email;
     private String contrasena;
     private String telefono;
     @Enumerated(EnumType.STRING)
     private RolUsuario rolUsuario;
-    @Column(columnDefinition = "LONGTEXT")
+    @Column(columnDefinition = "TEXT")
     private String token;
 
     private boolean bloqueado;

@@ -29,13 +29,17 @@ public class PublicacionController {
     }
 
     @DeleteMapping("{idPublicaciones}")
-    public void deletePublicaciones(@PathVariable("idPublicaciones") String id){
+    public void deletePublicaciones(@PathVariable("idPublicaciones") String id) {
         publicacionService.deletePublicaciones(id);
     }
 
     @PutMapping("{idPublicaciones}")
-    public void updatePublicaciones(@PathVariable("idPublicaciones") String id, @RequestBody Publicacion publicacion){
+    public void updatePublicaciones(@PathVariable("idPublicaciones") String id, @RequestBody Publicacion publicacion) {
         publicacionService.updatePublicaciones(id, publicacion);
     }
 
+    @GetMapping("/byuser/{userEmail}")
+    public void getPublicacionesByUserEmail(@PathVariable("userEmail") String email) {
+        publicacionService.getPublicacionesByEmail(email);
+    }
 }
