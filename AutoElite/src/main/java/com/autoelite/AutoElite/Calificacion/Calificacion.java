@@ -1,4 +1,4 @@
-package com.autoelite.AutoElite.publicaciones;
+package com.autoelite.AutoElite.Calificacion;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -6,15 +6,14 @@ import lombok.*;
 @Entity
 @Getter
 @Setter
-@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
-public class Publicaciones {
+public class Calificacion {
 
     @Id
     private Long id;
-    private String fechaPublicacion;
-    private String ciudad;
-
+    private String fecha;
+    private String comentarios;
+    private int numEstrellas;
 }
