@@ -11,8 +11,7 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.authentication.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.*;
@@ -48,7 +47,7 @@ public class AutenticacionController {
 
             return ResponseEntity.ok(new DatosJWTToken(JWTtoken));
         }catch (AuthenticationException e){
-            throw new ForbiddenException("error al iniciar sesión");
+            throw new ForbiddenException("error al iniciar sesión, email o contraseña incorrecta");
         }
     }
 

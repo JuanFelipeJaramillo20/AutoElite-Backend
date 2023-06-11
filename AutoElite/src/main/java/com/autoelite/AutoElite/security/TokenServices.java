@@ -5,6 +5,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.autoelite.AutoElite.Usuarios.RolUsuario;
 import com.autoelite.AutoElite.Usuarios.Usuario;
 import org.springframework.stereotype.Service;
 
@@ -22,12 +23,11 @@ public class TokenServices {
             Algorithm algorithm = Algorithm.HMAC256("54321");//HMAC256 recibe un string que es un 'secret' para validar la firma
             return JWT.create()
                     .withIssuer("autoelite com")
-                    .withSubject(usuario.getEmail())
                     .withClaim("id: ", usuario.getId())
+                    .withClaim( "email: ",usuario.getEmail())
                     .withClaim("nombre: ", usuario.getNombres())
                     .withClaim("telefono: ", usuario.getTelefono())
-                    .withClaim("password: ", usuario.getContrasena())
-                    //.withClaim("rol: ", Collections.singletonList(usuario.getRol()))
+                    .withClaim("rol: ", (String.valueOf(usuario.getRolUsuario())))
                     //.withExpiresAt(generarFechaExpiracion())
                     .sign(algorithm);
         } catch (JWTCreationException exception) {
