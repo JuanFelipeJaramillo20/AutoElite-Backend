@@ -34,3 +34,4 @@ build/
 
 # Ignore application-secret.properties
 application-secret.properties
+application-local.properties
