@@ -27,7 +27,7 @@ public class Usuario implements UserDetails{
     private String telefono;
     @Enumerated(EnumType.STRING)
     private RolUsuario rolUsuario;
-    @Column(columnDefinition = "TEXT")
+    @Column(columnDefinition = "text")
     private String token;
 
     private boolean bloqueado;
