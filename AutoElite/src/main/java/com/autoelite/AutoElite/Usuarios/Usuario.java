@@ -1,19 +1,22 @@
 package com.autoelite.AutoElite.Usuarios;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.Collection;
+import java.util.List;
 
 @EqualsAndHashCode
 @ToString
 @Getter
 @Setter
 @Entity
-@NoArgsConstructor
 @AllArgsConstructor
-public class Usuario {
+@NoArgsConstructor
+public class Usuario implements UserDetails{
 
     @Id
     private String id;
@@ -21,6 +24,50 @@ public class Usuario {
     private String email;
     private String contrasena;
     private String telefono;
-    private Byte rol;
+    @Enumerated(EnumType.STRING)
+    private RolUsuario rolUsuario;
+    @Column(columnDefinition = "LONGTEXT")
+    private String token;
 
+    private boolean bloqueado;
+    private boolean isEnabled = true;
+
+    public Usuario(String token) {
+        this.token = token;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return  List.of(new SimpleGrantedAuthority(rolUsuario.name()));
+    }
+
+    @Override
+    public String getPassword() {
+        return contrasena;
+    }
+
+    @Override
+    public String getUsername(){
+        return email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return isEnabled;
+    }
 }

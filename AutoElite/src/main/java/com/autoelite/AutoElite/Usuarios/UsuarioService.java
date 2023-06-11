@@ -6,7 +6,8 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class UsuarioService {
+public class UsuarioService{
+
     private final UsuarioDAO usuarioDAO;
 
     public UsuarioService(UsuarioDAO usuarioDAO) {
@@ -42,13 +43,23 @@ public class UsuarioService {
             if (usuario.getTelefono() != null && !usuario.getTelefono().isEmpty()) {
                 existingUsuario.get().setTelefono(usuario.getTelefono());
             }
-            if (usuario.getRol() != null) {
-                existingUsuario.get().setRol(usuario.getRol());
+            if (usuario.getRolUsuario() != null) {
+                existingUsuario.get().setRolUsuario(usuario.getRolUsuario());
             }
+
             usuarioDAO.save(existingUsuario.get());
         } else {
             throw new RuntimeException("Usuario no encontrado: " + id);
         }
     }
+
+    public void updateToken(Usuario usuario, String token){
+        Optional<Usuario> userByEmail = usuarioDAO.findByEmail(usuario.getEmail());
+        if (userByEmail.isPresent()) {
+            userByEmail.get().setToken(token);
+        }
+        usuarioDAO.save(userByEmail.get());
+    }
+
 
 }

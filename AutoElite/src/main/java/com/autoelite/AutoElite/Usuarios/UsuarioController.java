@@ -37,5 +37,6 @@ public class UsuarioController {
     public void updateUsuario(@PathVariable("idUsuario") String id, @RequestBody Usuario usuario) {
         usuarioService.updateUsuario(id, usuario);
     }
+
 }
 
