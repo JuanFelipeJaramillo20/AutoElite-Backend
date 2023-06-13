@@ -1,5 +1,7 @@
 package com.autoelite.AutoElite.Usuarios;
 
+import com.autoelite.AutoElite.security.SecurityConfigurations;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -9,6 +11,9 @@ import java.util.Optional;
 public class UsuarioService{
 
     private final UsuarioDAO usuarioDAO;
+
+    @Autowired
+    private SecurityConfigurations securityConfigurations;
 
     public UsuarioService(UsuarioDAO usuarioDAO) {
         this.usuarioDAO = usuarioDAO;
@@ -38,7 +43,8 @@ public class UsuarioService{
                 existingUsuario.get().setNombres(usuario.getNombres());
             }
             if (usuario.getContrasena() != null && !usuario.getContrasena().isEmpty()) {
-                existingUsuario.get().setContrasena(usuario.getContrasena());
+                String hashPass = securityConfigurations.passwordEncoder().encode(usuario.getContrasena());
+                existingUsuario.get().setContrasena(hashPass);
             }
             if (usuario.getTelefono() != null && !usuario.getTelefono().isEmpty()) {
                 existingUsuario.get().setTelefono(usuario.getTelefono());
