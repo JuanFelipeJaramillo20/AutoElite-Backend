@@ -33,6 +33,7 @@ public class UsuarioController {
         usuarioService.deleteUsuario(id);
     }
 
+
     @PutMapping("{idUsuario}")
     public void updateUsuario(@PathVariable("idUsuario") String id, @RequestBody Usuario usuario) {
         usuarioService.updateUsuario(id, usuario);

@@ -27,7 +27,7 @@ public class TokenServices {
                     .withClaim("nombre: ", usuario.getNombres())
                     .withClaim("telefono: ", usuario.getTelefono())
                     .withClaim("rol: ", (String.valueOf(usuario.getRolUsuario())))
-                    //.withExpiresAt(generarFechaExpiracion())
+                    .withExpiresAt(generarFechaExpiracion())
                     .sign(algorithm);
         } catch (JWTCreationException exception) {
             throw new RuntimeException();
@@ -56,9 +56,9 @@ public class TokenServices {
         return verifier.getSubject();
     }
 
-    /*
+
     //darte una expiracion al token
     private Instant generarFechaExpiracion(){
-        return LocalDateTime.now().plusHours(2).toInstant(ZoneOffset.of("-05:00"));
-    }*/
+        return LocalDateTime.now().plusSeconds(1).toInstant(ZoneOffset.of("-05:00"));
+    }
 }
