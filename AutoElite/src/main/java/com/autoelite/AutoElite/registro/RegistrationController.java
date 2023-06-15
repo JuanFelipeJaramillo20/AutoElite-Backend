@@ -34,7 +34,6 @@ public class RegistrationController {
         usuario.setNombres(request.getNombres());
         usuario.setEmail(request.getEmail());
         usuario.setTelefono(request.getTelefono());
-        usuario.setId(request.getId());
         usuario.setRolUsuario(request.getRol());
         registrationService.addRegister(usuario);
     }

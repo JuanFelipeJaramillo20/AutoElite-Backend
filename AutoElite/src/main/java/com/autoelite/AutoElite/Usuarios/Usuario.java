@@ -20,7 +20,7 @@ public class Usuario implements UserDetails{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+    private Integer id;
     private String nombres;
     @Column(unique = true)
     private String email;
