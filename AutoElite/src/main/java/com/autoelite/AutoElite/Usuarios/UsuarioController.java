@@ -1,6 +1,8 @@
 package com.autoelite.AutoElite.Usuarios;
 
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
@@ -39,5 +41,17 @@ public class UsuarioController {
         usuarioService.updateUsuario(id, usuario);
     }
 
+    @PutMapping("/img/{idUsuario}")
+    public void updateImgUsuario(@PathVariable("idUsuario") String id, @RequestBody MultipartFile img) {
+        usuarioService.setImagenPerfilUsuario(id, img);
+    }
+
+    @PostMapping("/{usuarioId}/favoritos/{publicacionId}")
+    public ResponseEntity<String> addToFavorites(
+            @PathVariable("usuarioId") String usuarioId,
+            @PathVariable("publicacionId") String publicacionId) {
+        usuarioService.addToFavorites(usuarioId, publicacionId);
+        return ResponseEntity.ok("Publicacion added to favorites successfully");
+    }
 }
 
