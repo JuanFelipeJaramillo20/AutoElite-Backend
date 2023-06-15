@@ -41,8 +41,8 @@ public class CarroServices {
             if (carro.getMotor() != null && !carro.getMotor().isEmpty()) {
                 existingCarro.get().setMotor(carro.getMotor());
             }
-            if (carro.getMatricula() != null && !carro.getMatricula().isEmpty()) {
-                existingCarro.get().setMatricula(carro.getMatricula());
+            if (carro.getCiudadMatricula() != null && !carro.getCiudadMatricula().isEmpty()) {
+                existingCarro.get().setCiudadMatricula(carro.getCiudadMatricula());
             }
             if (carro.getMarca() != null && !carro.getMarca().isEmpty()) {
                 existingCarro.get().setMarca(carro.getMarca());
