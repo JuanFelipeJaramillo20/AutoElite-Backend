@@ -15,7 +15,6 @@ public class Carro {
     private String puertas;
     private String motor;
     private String ciudad;
-    private String ciudadMatricula;
     private String marca;
     @Id
     private String placa;

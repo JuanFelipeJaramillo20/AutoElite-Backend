@@ -1,5 +1,6 @@
 package com.autoelite.AutoElite.Usuarios;
 
+import com.autoelite.AutoElite.Publicacion.Publicacion;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -34,13 +35,24 @@ public class Usuario implements UserDetails{
     private boolean bloqueado;
     private boolean isEnabled = true;
 
+    @Column(name = "imagen", columnDefinition = "bytea")
+    private Byte[] imagenPerfil;
+
+    @ManyToMany
+    @JoinTable(
+            name = "usuario_publicacion",
+            joinColumns = @JoinColumn(name = "usuario_id"),
+            inverseJoinColumns = @JoinColumn(name = "publicacion_id")
+    )
+    private List<Publicacion> publicacionesFavoritas;
+
     public Usuario(String token) {
         this.token = token;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return  List.of(new SimpleGrantedAuthority(rolUsuario.name()));
+        return List.of(new SimpleGrantedAuthority(rolUsuario.name()));
     }
 
     @Override
