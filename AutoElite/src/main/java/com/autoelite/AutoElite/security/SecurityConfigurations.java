@@ -43,7 +43,6 @@ public class SecurityConfigurations {
                 .and()
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
-
     }
 
 

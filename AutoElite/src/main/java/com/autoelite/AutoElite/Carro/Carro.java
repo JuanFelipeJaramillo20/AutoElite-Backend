@@ -11,18 +11,21 @@ import lombok.*;
 @AllArgsConstructor
 @EqualsAndHashCode
 public class Carro {
-    @Id
-    private Long id;
+
     private String puertas;
     private String motor;
     private String ciudad;
-    private String matricula;
+    private String ciudadMatricula;
     private String marca;
+    @Id
     private String placa;
     private String color;
     private String tipo;
     private String combustible;
     private String year;
     private String estado;
-
+    private String transmision;
+    private Double precio;
+    private Integer kilometraje;
+    private Boolean precioEsNegociable;
 }
