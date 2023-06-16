@@ -12,8 +12,5 @@ import java.util.Optional;
 
 public interface UsuarioDAO extends JpaRepository<Usuario, String> {
     Optional<Usuario> findByEmail(String email);
-
-    //@Query("update usuario c set c.token = :token where c.email = :email")
-    //void upadateToken(String token, String email);
 }
 

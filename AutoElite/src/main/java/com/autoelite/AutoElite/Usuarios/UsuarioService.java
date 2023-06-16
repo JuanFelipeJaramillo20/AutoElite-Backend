@@ -110,14 +110,4 @@ public class UsuarioService{
             throw new RuntimeException("Usuario not found: " + usuarioId);
         }
     }
-
-    public void updateToken(Usuario usuario, String token) {
-        Optional<Usuario> userByEmail = usuarioDAO.findByEmail(usuario.getEmail());
-        if (userByEmail.isPresent()) {
-            userByEmail.get().setToken(token);
-        }
-        usuarioDAO.save(userByEmail.get());
-    }
-
-
 }

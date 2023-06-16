@@ -2,6 +2,7 @@ package com.autoelite.AutoElite.registro;
 
 import com.autoelite.AutoElite.Usuarios.Usuario;
 import com.autoelite.AutoElite.Usuarios.UsuarioDAO;
+import com.autoelite.AutoElite.Usuarios.UsuarioService;
 import com.autoelite.AutoElite.security.SecurityConfigurations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +17,7 @@ public class RegistrationController {
     private UsuarioDAO usuarioDAO;
 
     @Autowired
-    private RegistrationService registrationService;
+    private UsuarioService usuarioService;
 
     @Autowired
     private SecurityConfigurations securityConfigurations;
@@ -34,8 +35,8 @@ public class RegistrationController {
         usuario.setNombres(request.getNombres());
         usuario.setEmail(request.getEmail());
         usuario.setTelefono(request.getTelefono());
-        usuario.setRolUsuario(request.getRol());
-        registrationService.addRegister(usuario);
+        usuario.setRolUsuario(request.getRolUsuario());
+        usuarioService.addUsuario(usuario);
     }
 
 }

@@ -21,7 +21,7 @@ public class Usuario implements UserDetails{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
     private String nombres;
     @Column(unique = true)
     private String email;
@@ -29,8 +29,6 @@ public class Usuario implements UserDetails{
     private String telefono;
     @Enumerated(EnumType.STRING)
     private RolUsuario rolUsuario;
-    @Column(columnDefinition = "TEXT")
-    private String token;
 
     private boolean bloqueado;
     private boolean isEnabled = true;
@@ -38,17 +36,13 @@ public class Usuario implements UserDetails{
     @Column(name = "imagen", columnDefinition = "bytea")
     private Byte[] imagenPerfil;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "usuario_publicacion",
             joinColumns = @JoinColumn(name = "usuario_id"),
             inverseJoinColumns = @JoinColumn(name = "publicacion_id")
     )
     private List<Publicacion> publicacionesFavoritas;
-
-    public Usuario(String token) {
-        this.token = token;
-    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
