@@ -46,7 +46,7 @@ public class PublicacionService {
     }
 
     public void addPublicacion(PublicacionRequest publicacionRequest) {
-        Usuario usuario = usuarioDAO.findById(publicacionRequest.getId() + "")
+        Usuario usuario = usuarioDAO.findById(publicacionRequest.getUsuarioId() + "")
                 .orElseThrow(() -> new RuntimeException("Usuario not found"));
 
         Carro carro = new Carro();
