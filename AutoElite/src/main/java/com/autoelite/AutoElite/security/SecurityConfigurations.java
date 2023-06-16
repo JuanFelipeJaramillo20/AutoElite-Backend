@@ -25,24 +25,27 @@ public class SecurityConfigurations {
     private SecurityFilter securityFilter;
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-        return httpSecurity.cors().and().csrf().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+        httpSecurity.cors().and().csrf().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().authorizeRequests()
                 .requestMatchers(HttpMethod.POST, "api/v1/userlogin").permitAll()
                 .requestMatchers(HttpMethod.POST, "api/v1/registro/**").permitAll()
+                .requestMatchers(HttpMethod.POST, "api/v1/registro").permitAll()
                 .requestMatchers(HttpMethod.POST, "api/v1/usuarios/**").permitAll()
                 .requestMatchers(HttpMethod.PUT, "api/v1/usuarios/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "api/v1/usuarios/**").permitAll()
                 .requestMatchers(HttpMethod.DELETE, "api/v1/usuarios/**").permitAll()
+                .requestMatchers(HttpMethod.GET, "api/v1/resumen/**").permitAll()
+                .requestMatchers(HttpMethod.POST, "api/v1/carro").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/v1/publicaciones").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/v1/publicaciones/**").permitAll()
-                .requestMatchers(HttpMethod.POST, "/api/v1/publicaciones").authenticated()
+                .requestMatchers(HttpMethod.POST, "/api/v1/publicaciones").permitAll()
                 .requestMatchers(HttpMethod.PUT, "/api/v1/publicaciones/**").authenticated()
                 .requestMatchers(HttpMethod.DELETE, "/api/v1/publicaciones/**").authenticated()
                 .anyRequest()
                 .authenticated()
                 .and()
-                .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
-                .build();
+                .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class);
+        return httpSecurity.build();
     }
 
 

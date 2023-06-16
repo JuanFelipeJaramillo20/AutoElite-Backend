@@ -15,7 +15,7 @@ public class PublicacionRequest {
     private Long id;
     private String fechaPublicacion;
     private String ciudad;
-    private Usuario usuarioPublicacion;
+    private String usuarioId;
     private CarroRequest carro;
     private String descripcion;
 
