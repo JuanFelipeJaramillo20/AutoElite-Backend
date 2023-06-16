@@ -44,7 +44,7 @@ public class PublicacionController {
     }
 
     @GetMapping("/byuser/{userEmail}")
-    public void getPublicacionesByUserEmail(@PathVariable("userEmail") String email) {
-        publicacionService.getPublicacionesByEmail(email);
+    public List<Publicacion> getPublicacionesByUserEmail(@PathVariable("userEmail") String email) {
+        return publicacionService.getPublicacionesByEmail(email);
     }
 }

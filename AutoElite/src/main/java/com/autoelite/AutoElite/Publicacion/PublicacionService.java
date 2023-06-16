@@ -6,6 +6,7 @@ import com.autoelite.AutoElite.Usuarios.Usuario;
 import com.autoelite.AutoElite.Usuarios.UsuarioDAO;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.TypedQuery;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -39,10 +40,10 @@ public class PublicacionService {
     }
 
     public List<Publicacion> getPublicacionesByEmail(String email) {
-        String queryString = "SELECT p FROM Publicacion p JOIN p.usuarioPublicacion u WHERE u.email = :userEmail";
-        return entityManager.createQuery(queryString, Publicacion.class)
-                .setParameter("userEmail", email)
-                .getResultList();
+        String jpql = "SELECT p FROM Publicacion p JOIN p.usuarioPublicacion u WHERE u.email = '" + email + "'";
+        TypedQuery<Publicacion> query = entityManager.createQuery(jpql, Publicacion.class);
+        List<Publicacion> publicaciones = query.getResultList();
+        return publicaciones;
     }
 
     public void addPublicacion(PublicacionRequest publicacionRequest) {
