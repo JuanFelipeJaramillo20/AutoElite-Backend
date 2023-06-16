@@ -12,6 +12,6 @@ import lombok.*;
 @EqualsAndHashCode
 public class Resumen {
 
-    private long idPublicacion;
+    private String idPublicacion;
     private Carro carroPublicacion;
 }
