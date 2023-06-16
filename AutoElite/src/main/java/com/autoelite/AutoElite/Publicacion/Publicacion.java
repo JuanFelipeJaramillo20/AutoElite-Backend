@@ -15,7 +15,7 @@ import lombok.*;
 public class Publicacion {
 
     @Id
-    private Long id;
+    private String id;
     private String fechaPublicacion;
     private String ciudad;
 

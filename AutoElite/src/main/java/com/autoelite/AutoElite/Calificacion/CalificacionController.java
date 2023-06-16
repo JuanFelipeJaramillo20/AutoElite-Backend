@@ -23,13 +23,13 @@ public class CalificacionController {
     }
 
     @PostMapping
-    public void addCalificacion(@RequestBody Calificacion calificacion) {
-        calificacionService.addCalificacion(calificacion);
+    public ResponseEntity<?> addCalificacion(@RequestBody CalificacionRequest calificacion) {
+        return calificacionService.addCalificacion(calificacion);
     }
 
-    @DeleteMapping("{idClasificacion}")
-    public void deleteClasificacion(@PathVariable("idClasificacion") String id) {
-        calificacionService.deleteClasificacion(id);
+    @DeleteMapping("{idCalificacion}")
+    public ResponseEntity<?> deleteCalificacion(@PathVariable("idCalificacion") String id) {
+        return calificacionService.deleteCalificacion(id);
     }
 
 }
