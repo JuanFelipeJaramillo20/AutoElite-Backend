@@ -26,7 +26,7 @@ public class PublicacionController {
         return publicacionService.getPublicacionesById(id);
     }
 
-    @PostMapping("publicaciones")
+    @PostMapping
     public ResponseEntity<Void> addPublicacion(@RequestBody PublicacionRequest publicacionRequest) {
         publicacionService.addPublicacion(publicacionRequest);
         return ResponseEntity.status(HttpStatus.CREATED).build();
