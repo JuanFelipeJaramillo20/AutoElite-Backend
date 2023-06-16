@@ -1,8 +1,11 @@
 package com.autoelite.AutoElite.Publicacion;
 
+import com.autoelite.AutoElite.Carro.Carro;
+import com.autoelite.AutoElite.Carro.CarroDAO;
+import com.autoelite.AutoElite.Usuarios.Usuario;
+import com.autoelite.AutoElite.Usuarios.UsuarioDAO;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import org.hibernate.sql.exec.spi.StandardEntityInstanceResolver;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,11 +14,15 @@ import java.util.Optional;
 @Service
 public class PublicacionService {
     private final PublicacionDAO publicacionDAO;
+    private final CarroDAO carroDAO;
+    private final UsuarioDAO usuarioDAO;
     @PersistenceContext
     private EntityManager entityManager;
 
-    public PublicacionService(PublicacionDAO publicacionDAO) {
+    public PublicacionService(PublicacionDAO publicacionDAO, CarroDAO carroDAO, UsuarioDAO usuarioDAO) {
         this.publicacionDAO = publicacionDAO;
+        this.carroDAO = carroDAO;
+        this.usuarioDAO = usuarioDAO;
     }
 
     public List<Publicacion> getAllPublicaciones() {
@@ -38,7 +45,34 @@ public class PublicacionService {
                 .getResultList();
     }
 
-    public void addPublicaciones(Publicacion publicacion) {
+    public void addPublicacion(PublicacionRequest publicacionRequest) {
+        Usuario usuario = usuarioDAO.findById(publicacionRequest.getId() + "")
+                .orElseThrow(() -> new RuntimeException("Usuario not found"));
+
+        Carro carro = new Carro();
+        carro.setPuertas(publicacionRequest.getCarro().getPuertas());
+        carro.setMotor(publicacionRequest.getCarro().getMotor());
+        carro.setCiudad(publicacionRequest.getCarro().getCiudad());
+        carro.setMarca(publicacionRequest.getCarro().getMarca());
+        carro.setPlaca(publicacionRequest.getCarro().getPlaca());
+        carro.setColor(publicacionRequest.getCarro().getColor());
+        carro.setTipo(publicacionRequest.getCarro().getTipo());
+        carro.setCombustible(publicacionRequest.getCarro().getCombustible());
+        carro.setYear(publicacionRequest.getCarro().getYear());
+        carro.setEstado(publicacionRequest.getCarro().getEstado());
+        carro.setTransmision(publicacionRequest.getCarro().getTransmision());
+        carro.setPrecio(publicacionRequest.getCarro().getPrecio());
+        carro.setKilometraje(publicacionRequest.getCarro().getKilometraje());
+        carro.setPrecioEsNegociable(publicacionRequest.getCarro().getPrecioEsNegociable());
+
+        Publicacion publicacion = new Publicacion();
+        publicacion.setId(publicacionRequest.getId());
+        publicacion.setFechaPublicacion(publicacionRequest.getFechaPublicacion());
+        publicacion.setCiudad(publicacionRequest.getCiudad());
+        publicacion.setUsuarioPublicacion(usuario);
+        publicacion.setCarroPublicacion(carro);
+        publicacion.setDescripcion(publicacionRequest.getDescripcion());
+
         publicacionDAO.save(publicacion);
     }
 
