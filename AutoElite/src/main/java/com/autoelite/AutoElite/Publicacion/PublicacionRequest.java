@@ -12,7 +12,7 @@ import lombok.*;
 @EqualsAndHashCode
 
 public class PublicacionRequest {
-    private Long id;
+    private String id;
     private String fechaPublicacion;
     private String ciudad;
     private String usuarioId;
