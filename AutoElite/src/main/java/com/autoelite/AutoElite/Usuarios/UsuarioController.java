@@ -1,5 +1,8 @@
 package com.autoelite.AutoElite.Usuarios;
 
+import com.autoelite.AutoElite.errores.ErrorMessage;
+import com.autoelite.AutoElite.security.ConfirmationMessage;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.http.ResponseEntity;
@@ -16,13 +19,22 @@ public class UsuarioController {
     }
 
     @GetMapping
-    public List<Usuario> getUsuarios() {
-        return usuarioService.getAllUsuarios();
+    public ResponseEntity<?> getUsuarios() {
+        try {
+            return ResponseEntity.ok(usuarioService.getAllUsuarios());
+        }catch (NullPointerException e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorMessage("Usuarios no encontrados"));
+        }
     }
 
     @GetMapping("{idUsuario}")
-    public Usuario getUsuarioById(@PathVariable("idUsuario") String id) {
-        return usuarioService.getUsuarioById(id);
+    public ResponseEntity<?> getUsuarioById(@PathVariable("idUsuario") String id) {
+        try {
+            return ResponseEntity.ok(usuarioService.getUsuarioById(id));
+        } catch (NullPointerException e) {
+            String errorMessage = "Usuario no encontrado con id: " + id;
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorMessage(errorMessage));
+        }
     }
 
     @PostMapping
@@ -31,14 +43,24 @@ public class UsuarioController {
     }
 
     @DeleteMapping("{idUsuario}")
-    public void deleteUsuario(@PathVariable("idUsuario") String id) {
-        usuarioService.deleteUsuario(id);
+    public ResponseEntity<?> deleteUsuario(@PathVariable("idUsuario") String id) {
+        if (usuarioService.existsUsuario(id)) {
+            usuarioService.deleteUsuario(id);
+            return ResponseEntity.ok(new ConfirmationMessage("Usuario con ID " + id + " ha sido eliminado exitosamente"));
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorMessage("El usuario con el ID " + id + " no existe"));
+        }
     }
 
 
     @PutMapping("{idUsuario}")
-    public void updateUsuario(@PathVariable("idUsuario") String id, @RequestBody Usuario usuario) {
-        usuarioService.updateUsuario(id, usuario);
+    public ResponseEntity<?> updateUsuario(@PathVariable("idUsuario") String id, @RequestBody Usuario usuario) {
+        try {
+            usuarioService.updateUsuario(id, usuario);
+            return ResponseEntity.ok(new ConfirmationMessage("Usuario actualizado exitosamente"));
+        }catch (NullPointerException e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorMessage("El usuario con el ID " + id + " no existe"));
+        }
     }
 
     @PutMapping("/img/{idUsuario}")
@@ -47,11 +69,11 @@ public class UsuarioController {
     }
 
     @PostMapping("/{usuarioId}/favoritos/{publicacionId}")
-    public ResponseEntity<String> addToFavorites(
+    public ResponseEntity<?> addToFavorites(
             @PathVariable("usuarioId") String usuarioId,
             @PathVariable("publicacionId") String publicacionId) {
         usuarioService.addToFavorites(usuarioId, publicacionId);
-        return ResponseEntity.ok("Publicacion added to favorites successfully");
+        return ResponseEntity.ok(new ConfirmationMessage("Publicacion added to favorites successfully"));
     }
 }
 
