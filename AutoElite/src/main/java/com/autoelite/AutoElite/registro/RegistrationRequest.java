@@ -11,10 +11,9 @@ import lombok.ToString;
 @EqualsAndHashCode
 @ToString
 public class RegistrationRequest {
-    private String id;
     private String nombres;
     private String email;
     private String telefono;
     private String contrasena;
-    private RolUsuario rol;
+    private RolUsuario rolUsuario;
 }

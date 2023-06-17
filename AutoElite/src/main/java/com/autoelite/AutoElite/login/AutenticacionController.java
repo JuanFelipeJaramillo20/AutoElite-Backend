@@ -27,26 +27,13 @@ public class AutenticacionController {
     @Autowired
     private TokenServices tokenServices;
 
-
-    @Autowired
-    private UsuarioDAO usuarioDAO;
-
-    @Autowired
-    private UsuarioService usuarioService;
-
-    @PersistenceContext
-    private EntityManager entityManager;
-
     @PostMapping
-    public ResponseEntity autenticarUsuario(@RequestBody Usuario loginRequest){
+    public ResponseEntity autenticarUsuario(@RequestBody LoginRequest loginRequest){
         try {
             Authentication authToken = new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getContrasena());
             var usuarioAutenticado = authenticationManager.authenticate(authToken);
             var JWTtoken = tokenServices.generarToken((Usuario) usuarioAutenticado.getPrincipal());
-
-            usuarioService.updateToken(loginRequest, JWTtoken);
-
-            return ResponseEntity.ok(new DatosJWTToken(JWTtoken));
+            return ResponseEntity.ok(new DatosJWTToken(JWTtoken, ((Usuario) usuarioAutenticado.getPrincipal()).getId()));
         }catch (AuthenticationException e){
             throw new ForbiddenException("error al iniciar sesión, email o contraseña incorrecta");
         }

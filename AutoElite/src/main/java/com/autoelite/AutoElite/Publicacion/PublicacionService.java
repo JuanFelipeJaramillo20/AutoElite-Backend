@@ -27,22 +27,32 @@ public class PublicacionService {
     }
 
     public List<Publicacion> getAllPublicaciones() {
-        return publicacionDAO.findAll();
+        List<Publicacion> publicaciones = publicacionDAO.findAll();
+        if (publicaciones.isEmpty()) {
+            throw new NullPointerException();
+        }else {
+            return publicacionDAO.findAll();
+        }
     }
 
     public void deletePublicaciones(String id) {
         publicacionDAO.deleteById(id);
     }
-
+    public boolean existsPublicacion(String id) {
+        return publicacionDAO.existsById(id);
+    }
 
     public Publicacion getPublicacionesById(String id) {
-        return publicacionDAO.findById(id).orElseThrow(() -> new RuntimeException("Publicacion no encontrada con id: " + id));
+        return publicacionDAO.findById(id).orElseThrow(() -> new NullPointerException());
     }
 
     public List<Publicacion> getPublicacionesByEmail(String email) {
         String jpql = "SELECT p FROM Publicacion p JOIN p.usuarioPublicacion u WHERE u.email = '" + email + "'";
         TypedQuery<Publicacion> query = entityManager.createQuery(jpql, Publicacion.class);
         List<Publicacion> publicaciones = query.getResultList();
+        if (publicaciones.isEmpty()) {
+            throw new NullPointerException();
+        }
         return publicaciones;
     }
 
@@ -88,7 +98,7 @@ public class PublicacionService {
                 existingPublicaciones.get().setFechaPublicacion(publicacion.getFechaPublicacion());
             }
         }else{
-            throw new RuntimeException("Publicacion no encontrada: "+id);
+            throw new NullPointerException();
         }
     }
 

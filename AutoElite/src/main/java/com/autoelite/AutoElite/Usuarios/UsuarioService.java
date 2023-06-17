@@ -2,8 +2,12 @@ package com.autoelite.AutoElite.Usuarios;
 
 import com.autoelite.AutoElite.Publicacion.Publicacion;
 import com.autoelite.AutoElite.Publicacion.PublicacionDAO;
+import com.autoelite.AutoElite.errores.ErrorMessage;
+import com.autoelite.AutoElite.security.ConfirmationMessage;
 import com.autoelite.AutoElite.security.SecurityConfigurations;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -27,12 +31,17 @@ public class UsuarioService{
     }
 
     public List<Usuario> getAllUsuarios() {
-        return usuarioDAO.findAll();
+        List<Usuario> usuarios = usuarioDAO.findAll();
+        if (usuarios.isEmpty()) {
+            throw new NullPointerException();
+        }else {
+            return usuarioDAO.findAll();
+        }
     }
 
     public Usuario getUsuarioById(String id) {
         return usuarioDAO.findById(id)
-                .orElseThrow(() -> new RuntimeException("Usuario not found with id: " + id));
+                .orElseThrow(() -> new NullPointerException());
     }
 
     public void addUsuario(Usuario usuario) {
@@ -42,6 +51,10 @@ public class UsuarioService{
     public void deleteUsuario(String id) {
         usuarioDAO.deleteById(id);
     }
+    public boolean existsUsuario(String id) {
+        return usuarioDAO.existsById(id);
+    }
+
 
     public void updateUsuario(String id, Usuario usuario) {
         Optional<Usuario> existingUsuario = usuarioDAO.findById(id);
@@ -63,8 +76,9 @@ public class UsuarioService{
                 existingUsuario.get().setImagenPerfil(usuario.getImagenPerfil());
             }
             usuarioDAO.save(existingUsuario.get());
-        } else {
-            throw new RuntimeException("Usuario no encontrado: " + id);
+
+        }else {
+            throw new NullPointerException();
         }
     }
 
@@ -110,14 +124,4 @@ public class UsuarioService{
             throw new RuntimeException("Usuario not found: " + usuarioId);
         }
     }
-
-    public void updateToken(Usuario usuario, String token) {
-        Optional<Usuario> userByEmail = usuarioDAO.findByEmail(usuario.getEmail());
-        if (userByEmail.isPresent()) {
-            userByEmail.get().setToken(token);
-        }
-        usuarioDAO.save(userByEmail.get());
-    }
-
-
 }

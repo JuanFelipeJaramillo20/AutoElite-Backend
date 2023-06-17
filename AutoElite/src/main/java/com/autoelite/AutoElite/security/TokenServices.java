@@ -22,11 +22,12 @@ public class TokenServices {
             Algorithm algorithm = Algorithm.HMAC256("54321");//HMAC256 recibe un string que es un 'secret' para validar la firma
             return JWT.create()
                     .withIssuer("autoelite com")
-                    .withClaim("id: ", usuario.getId())
-                    .withClaim( "email: ",usuario.getEmail())
-                    .withClaim("nombre: ", usuario.getNombres())
-                    .withClaim("telefono: ", usuario.getTelefono())
-                    .withClaim("rol: ", (String.valueOf(usuario.getRolUsuario())))
+                    .withSubject(usuario.getEmail())
+                    .withClaim("id ", usuario.getId())
+                    .withClaim( "email ",usuario.getEmail())
+                    .withClaim("nombre ", usuario.getNombres())
+                    .withClaim("telefono ", usuario.getTelefono())
+                    .withClaim("rolUsuario ", (String.valueOf(usuario.getRolUsuario())))
                     .withExpiresAt(generarFechaExpiracion())
                     .sign(algorithm);
         } catch (JWTCreationException exception) {
@@ -59,6 +60,6 @@ public class TokenServices {
 
     //darte una expiracion al token
     private Instant generarFechaExpiracion(){
-        return LocalDateTime.now().plusSeconds(1).toInstant(ZoneOffset.of("-05:00"));
+        return LocalDateTime.now().plusHours(3).toInstant(ZoneOffset.of("-05:00"));
     }
 }
