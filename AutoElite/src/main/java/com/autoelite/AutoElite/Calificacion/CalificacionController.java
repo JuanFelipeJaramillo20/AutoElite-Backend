@@ -1,11 +1,13 @@
 package com.autoelite.AutoElite.Calificacion;
 
+import com.autoelite.AutoElite.Usuarios.Usuario;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("api/v1/clasificacion")
+@RequestMapping("api/v1/calificacion")
 public class CalificacionController {
     private final CalificacionService calificacionService;
 
@@ -13,28 +15,21 @@ public class CalificacionController {
         this.calificacionService = calificacionService;
     }
 
-    @GetMapping
-    public List<Calificacion> getClasificacions() {
-        return calificacionService.getAllClasificacion();
-    }
-
-    @GetMapping("{idClasificacion}")
-    public Calificacion getClasificacionById(@PathVariable("idClasificacion") String id) {
-        return calificacionService.getClasificacionById(id);
+    @GetMapping("{idReceiver}")
+    public ResponseEntity<?> getAllCalificacion(@PathVariable("idReceiver") Integer id) {
+        Usuario receiver = new Usuario();
+        receiver.setId(id);
+        return calificacionService.getAllCalificacion(receiver);
     }
 
     @PostMapping
-    public void addClasificacion(@RequestBody Calificacion clasificacion) {
-        calificacionService.addClasificacion(clasificacion);
+    public ResponseEntity<?> addCalificacion(@RequestBody CalificacionRequest calificacion) {
+        return calificacionService.addCalificacion(calificacion);
     }
 
-    @DeleteMapping("{idClasificacion}")
-    public void deleteClasificacion(@PathVariable("idClasificacion") String id) {
-        calificacionService.deleteClasificacion(id);
+    @DeleteMapping("{idCalificacion}")
+    public ResponseEntity<?> deleteCalificacion(@PathVariable("idCalificacion") String id) {
+        return calificacionService.deleteCalificacion(id);
     }
 
-    @PutMapping("{idClasificacion}")
-    public void updateClasificacion(@PathVariable("idClasificacion") String id, @RequestBody Calificacion clasificacion) {
-        calificacionService.updateClasificacion(id, clasificacion);
-    }
 }
