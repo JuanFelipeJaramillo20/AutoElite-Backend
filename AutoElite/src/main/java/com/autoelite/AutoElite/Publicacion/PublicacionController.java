@@ -1,6 +1,8 @@
 package com.autoelite.AutoElite.Publicacion;
 
 import com.autoelite.AutoElite.Carro.Carro;
+import com.autoelite.AutoElite.errores.ErrorMessage;
+import com.autoelite.AutoElite.security.ConfirmationMessage;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,13 +19,22 @@ public class PublicacionController {
     }
 
     @GetMapping
-    public List<Publicacion> getPublicaciones() {
-        return publicacionService.getAllPublicaciones();
+    public ResponseEntity<?> getPublicaciones() {
+        try {
+            return ResponseEntity.ok(publicacionService.getAllPublicaciones());
+        }catch (NullPointerException e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorMessage("Publicaciones no encontradas"));
+        }
     }
 
     @GetMapping("{idPublicaciones}")
-    public Publicacion getPublicacionesById(@PathVariable("idPublicaciones") String id) {
-        return publicacionService.getPublicacionesById(id);
+    public ResponseEntity<?> getPublicacionesById(@PathVariable("idPublicaciones") String id) {
+        try {
+            return ResponseEntity.ok(publicacionService.getPublicacionesById(id));
+        }catch (NullPointerException e){
+            String errorMessage = "Publicación no encontrada con id: " + id;
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorMessage(errorMessage));
+        }
     }
 
     @PostMapping
@@ -34,17 +45,31 @@ public class PublicacionController {
 
 
     @DeleteMapping("{idPublicaciones}")
-    public void deletePublicaciones(@PathVariable("idPublicaciones") String id) {
-        publicacionService.deletePublicaciones(id);
+    public ResponseEntity<?> deletePublicaciones(@PathVariable("idPublicaciones") String id) {
+        if (publicacionService.existsPublicacion(id)) {
+            publicacionService.deletePublicaciones(id);
+            return ResponseEntity.ok(new ConfirmationMessage("Publicación con ID " + id + " ha sido eliminada exitosamente"));
+        }else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorMessage("La publicación con el ID " + id + " no existe"));
+        }
     }
 
     @PutMapping("{idPublicaciones}")
-    public void updatePublicaciones(@PathVariable("idPublicaciones") String id, @RequestBody Publicacion publicacion) {
-        publicacionService.updatePublicaciones(id, publicacion);
+    public ResponseEntity<?> updatePublicaciones(@PathVariable("idPublicaciones") String id, @RequestBody Publicacion publicacion) {
+        try {
+            publicacionService.updatePublicaciones(id, publicacion);
+            return ResponseEntity.ok(new ConfirmationMessage("Publicación actualizada exitosamente"));
+        }catch (NullPointerException e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorMessage("La publicación con el ID " + id + " no existe"));
+        }
     }
 
     @GetMapping("/byuser/{userEmail}")
-    public List<Publicacion> getPublicacionesByUserEmail(@PathVariable("userEmail") String email) {
-        return publicacionService.getPublicacionesByEmail(email);
+    public ResponseEntity<?> getPublicacionesByUserEmail(@PathVariable("userEmail") String email) {
+        try {
+            return ResponseEntity.ok(publicacionService.getPublicacionesByEmail(email));
+        }catch (NullPointerException e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorMessage("No se encontraron publicaciones para el email: " + email));
+        }
     }
 }
