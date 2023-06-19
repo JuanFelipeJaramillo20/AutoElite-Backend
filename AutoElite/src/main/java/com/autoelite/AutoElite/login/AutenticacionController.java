@@ -3,13 +3,16 @@ package com.autoelite.AutoElite.login;
 import com.autoelite.AutoElite.Usuarios.Usuario;
 import com.autoelite.AutoElite.Usuarios.UsuarioDAO;
 import com.autoelite.AutoElite.Usuarios.UsuarioService;
+import com.autoelite.AutoElite.errores.ErrorMessage;
 import com.autoelite.AutoElite.errores.ForbiddenException;
+import com.autoelite.AutoElite.security.ConfirmationMessage;
 import com.autoelite.AutoElite.security.DatosJWTToken;
 import com.autoelite.AutoElite.security.TokenServices;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -35,7 +38,7 @@ public class AutenticacionController {
             var JWTtoken = tokenServices.generarToken((Usuario) usuarioAutenticado.getPrincipal());
             return ResponseEntity.ok(new DatosJWTToken(JWTtoken, ((Usuario) usuarioAutenticado.getPrincipal()).getId()));
         }catch (AuthenticationException e){
-            throw new ForbiddenException("error al iniciar sesión, email o contraseña incorrecta");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body( new ErrorMessage("error al iniciar sesión, email o contraseña incorrecta"));
         }
     }
 

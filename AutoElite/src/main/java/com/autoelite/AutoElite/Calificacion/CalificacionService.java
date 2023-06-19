@@ -33,10 +33,10 @@ public class CalificacionService {
 
     public ResponseEntity<?> addCalificacion(CalificacionRequest calificacionRequest) {
         Usuario sender = new Usuario();
-        sender.setId(Integer.parseInt(calificacionRequest.getSender()));
+        sender.setId(Long.valueOf(calificacionRequest.getSender()));
 
         Usuario receiver = new Usuario();
-        receiver.setId(Integer.parseInt(calificacionRequest.getReceiver()));
+        receiver.setId(Long.valueOf(calificacionRequest.getReceiver()));
 
         Optional<Usuario> findReceiver = usuarioDAO.findById(receiver.getId() + "");
         Optional<Usuario> findSender = usuarioDAO.findById(sender.getId() + "");
