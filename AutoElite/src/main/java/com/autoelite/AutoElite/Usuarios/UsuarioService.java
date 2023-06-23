@@ -6,6 +6,7 @@ import com.autoelite.AutoElite.errores.ErrorMessage;
 import com.autoelite.AutoElite.security.ConfirmationMessage;
 import com.autoelite.AutoElite.security.SecurityConfigurations;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -17,7 +18,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class UsuarioService{
+public class UsuarioService {
 
     private final UsuarioDAO usuarioDAO;
     private final PublicacionDAO publicacionDAO;
@@ -34,15 +35,18 @@ public class UsuarioService{
         List<Usuario> usuarios = usuarioDAO.findAll();
         if (usuarios.isEmpty()) {
             throw new NullPointerException();
-        }else {
+        } else {
             return usuarioDAO.findAll();
         }
     }
 
     public Usuario getUsuarioById(String id) {
-        return usuarioDAO.findById(id)
+        Usuario usuario = usuarioDAO.findById(id)
                 .orElseThrow(() -> new NullPointerException());
+
+        return usuario;
     }
+
 
     public void addUsuario(Usuario usuario) {
         usuarioDAO.save(usuario);
@@ -51,6 +55,7 @@ public class UsuarioService{
     public void deleteUsuario(String id) {
         usuarioDAO.deleteById(id);
     }
+
     public boolean existsUsuario(String id) {
         return usuarioDAO.existsById(id);
     }
@@ -77,26 +82,16 @@ public class UsuarioService{
             }
             usuarioDAO.save(existingUsuario.get());
 
-        }else {
+        } else {
             throw new NullPointerException();
         }
     }
 
-    public void setImagenPerfilUsuario(String id, MultipartFile imagen) {
-        if (!imagen.isEmpty()) {
-            try {
-                Byte[] byteArrayWrapper = new Byte[imagen.getBytes().length];
-                for (int i = 0; i < imagen.getBytes().length; i++) {
-                    byteArrayWrapper[i] = Byte.valueOf(imagen.getBytes()[i]);
-                }
-                Optional<Usuario> user = usuarioDAO.findById(id);
-                if (user.isPresent()) {
-                    user.get().setImagenPerfil(byteArrayWrapper);
-                    usuarioDAO.save(user.get());
-                }
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+    public void setImagenPerfilUsuario(String id, String imagen) {
+        Optional<Usuario> user = usuarioDAO.findById(id);
+        if (user.isPresent()) {
+            user.get().setImagenPerfil(imagen);
+            usuarioDAO.save(user.get());
         }
     }
 
@@ -124,4 +119,5 @@ public class UsuarioService{
             throw new RuntimeException("Usuario not found: " + usuarioId);
         }
     }
+
 }

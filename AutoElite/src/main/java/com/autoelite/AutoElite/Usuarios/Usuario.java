@@ -7,11 +7,11 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
 @EqualsAndHashCode
-@ToString
 @Getter
 @Setter
 @Entity
@@ -34,8 +34,7 @@ public class Usuario implements UserDetails{
     private boolean bloqueado;
     private boolean isEnabled = true;
 
-    @Column(name = "imagen", columnDefinition = "bytea")
-    private Byte[] imagenPerfil;
+    private String imagenPerfil;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
@@ -78,5 +77,20 @@ public class Usuario implements UserDetails{
     @Override
     public boolean isEnabled() {
         return isEnabled;
+    }
+
+    @Override
+    public String toString() {
+        return "Usuario{" +
+                "id=" + id +
+                ", nombres='" + nombres + '\'' +
+                ", email='" + email + '\'' +
+                ", contrasena='" + contrasena + '\'' +
+                ", telefono='" + telefono + '\'' +
+                ", rolUsuario=" + rolUsuario +
+                ", bloqueado=" + bloqueado +
+                ", isEnabled=" + isEnabled +
+                ", imagenPerfil=" + imagenPerfil +
+                '}';
     }
 }
