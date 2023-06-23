@@ -1,28 +1,32 @@
 package com.autoelite.AutoElite.Usuarios;
 
+import com.autoelite.AutoElite.Publicacion.Publicacion;
+import com.autoelite.AutoElite.Publicacion.PublicacionService;
 import com.autoelite.AutoElite.errores.ErrorMessage;
 import com.autoelite.AutoElite.security.ConfirmationMessage;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("api/v1/usuarios")
 public class UsuarioController {
     private final UsuarioService usuarioService;
+    private final PublicacionService publicacionService;
 
-    public UsuarioController(UsuarioService usuarioService) {
+    public UsuarioController(UsuarioService usuarioService, PublicacionService publicacionService) {
         this.usuarioService = usuarioService;
+        this.publicacionService = publicacionService;
     }
 
     @GetMapping
     public ResponseEntity<?> getUsuarios() {
         try {
             return ResponseEntity.ok(usuarioService.getAllUsuarios());
-        }catch (NullPointerException e){
+        } catch (NullPointerException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorMessage("Usuarios no encontrados"));
         }
     }
@@ -64,7 +68,7 @@ public class UsuarioController {
     }
 
     @PutMapping("/img/{idUsuario}")
-    public void updateImgUsuario(@PathVariable("idUsuario") String id, @RequestBody MultipartFile img) {
+    public void updateImgUsuario(@PathVariable("idUsuario") String id, @RequestBody String img) {
         usuarioService.setImagenPerfilUsuario(id, img);
     }
 
@@ -75,5 +79,25 @@ public class UsuarioController {
         usuarioService.addToFavorites(usuarioId, publicacionId);
         return ResponseEntity.ok(new ConfirmationMessage("Publicacion added to favorites successfully"));
     }
+
+    @GetMapping("/{userId}/favorites")
+    public ResponseEntity<List<Publicacion>> getUserFavorites(@PathVariable("userId") String userId) {
+        try {
+            Usuario usuario = usuarioService.getUsuarioById(userId);
+            List<String> publicacionIds = usuario.getPublicacionesFavoritas()
+                    .stream()
+                    .map(Publicacion::getId)
+                    .collect(Collectors.toList());
+            List<Publicacion> favorites = publicacionService.getPublicacionesByIds(publicacionIds);
+
+            // Remove the nested publicacionesFavoritas from the Usuario objects
+            favorites.forEach(publicacion -> publicacion.getUsuarioPublicacion().setPublicacionesFavoritas(null));
+
+            return ResponseEntity.ok(favorites);
+        } catch (NullPointerException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
 }
 

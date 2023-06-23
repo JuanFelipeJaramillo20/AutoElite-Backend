@@ -94,12 +94,16 @@ public class PublicacionService {
             if (publicacion.getCiudad() != null && !publicacion.getCiudad().isEmpty()) {
                 existingPublicaciones.get().setCiudad(publicacion.getCiudad());
             }
-            if (publicacion.getFechaPublicacion() != null && !publicacion.getFechaPublicacion().isEmpty()){
+            if (publicacion.getFechaPublicacion() != null && !publicacion.getFechaPublicacion().isEmpty()) {
                 existingPublicaciones.get().setFechaPublicacion(publicacion.getFechaPublicacion());
             }
-        }else{
+        } else {
             throw new NullPointerException();
         }
+    }
+
+    public List<Publicacion> getPublicacionesByIds(List<String> ids) {
+        return publicacionDAO.findAllById(ids);
     }
 
 }
