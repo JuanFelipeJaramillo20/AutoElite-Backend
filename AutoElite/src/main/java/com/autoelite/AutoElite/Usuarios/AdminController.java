@@ -2,6 +2,7 @@ package com.autoelite.AutoElite.Usuarios;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 import java.util.List;
 
@@ -18,12 +19,14 @@ public class AdminController {
     }
 
     @GetMapping("/users")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<Usuario>> getAllUsers() {
         List<Usuario> users = userService.getAllUsuarios();
         return ResponseEntity.ok(users);
     }
 
     @GetMapping("/users/{userId}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Usuario> getUserById(@PathVariable String userId) {
         Usuario user = userService.getUsuarioById(userId);
         if (user != null) {
@@ -34,6 +37,7 @@ public class AdminController {
     }
 
     @PutMapping("/users/{userId}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Usuario> updateUserAsAdmin(@PathVariable String userId, @RequestBody Usuario updatedUser) {
         Usuario user = adminService.updateUserAsAdmin(userId, updatedUser);
         if (user != null) {
@@ -44,6 +48,7 @@ public class AdminController {
     }
 
     @DeleteMapping("/users/{userId}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> deleteUserAsAdmin(@PathVariable String userId) {
         boolean deleted = adminService.deleteUserAsAdmin(userId);
         if (deleted) {
@@ -54,6 +59,7 @@ public class AdminController {
     }
 
     @PostMapping("/users/{userId}/block")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> blockUserAsAdmin(@PathVariable String userId) {
         boolean blocked = adminService.blockUserAsAdmin(userId);
         if (blocked) {
