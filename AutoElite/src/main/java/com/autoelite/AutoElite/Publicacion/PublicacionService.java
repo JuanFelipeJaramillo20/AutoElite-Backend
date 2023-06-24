@@ -56,6 +56,18 @@ public class PublicacionService {
         return publicaciones;
     }
 
+    public List<Publicacion> getPublicacionesByUserId(String userId) {
+        Optional<Usuario> usuario = usuarioDAO.findById(userId);
+
+        if (!usuario.isPresent()) {
+            throw new NullPointerException("Usuario not found with ID: " + userId);
+        }
+        String query = "SELECT p FROM Publicacion p WHERE p.usuarioPublicacion.id = :userId";
+        TypedQuery<Publicacion> typedQuery = entityManager.createQuery(query, Publicacion.class);
+        typedQuery.setParameter("userId", userId);
+        return typedQuery.getResultList();
+    }
+
     public void addPublicacion(PublicacionRequest publicacionRequest) {
         Usuario usuario = usuarioDAO.findById(publicacionRequest.getUsuarioId() + "")
                 .orElseThrow(() -> new RuntimeException("Usuario not found"));

@@ -64,12 +64,22 @@ public class PublicacionController {
         }
     }
 
-    @GetMapping("/byuser/{userEmail}")
+    @GetMapping("/byuseremail/{userEmail}")
     public ResponseEntity<?> getPublicacionesByUserEmail(@PathVariable("userEmail") String email) {
         try {
             return ResponseEntity.ok(publicacionService.getPublicacionesByEmail(email));
-        }catch (NullPointerException e){
+        } catch (NullPointerException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorMessage("No se encontraron publicaciones para el email: " + email));
         }
     }
+
+    @GetMapping("/byuser/{userId}")
+    public ResponseEntity<?> getPublicacionesByUserId(@PathVariable("userId") String userId) {
+        try {
+            return ResponseEntity.ok(publicacionService.getPublicacionesByUserId(userId));
+        } catch (NullPointerException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorMessage("No se encontraron publicaciones para el ID de usuario: " + userId));
+        }
+    }
+
 }

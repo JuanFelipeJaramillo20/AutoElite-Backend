@@ -119,5 +119,4 @@ public class UsuarioService {
             throw new RuntimeException("Usuario not found: " + usuarioId);
         }
     }
-
 }
