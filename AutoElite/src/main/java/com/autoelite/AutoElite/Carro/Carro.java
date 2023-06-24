@@ -3,6 +3,8 @@ package com.autoelite.AutoElite.Carro;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Entity
 @Getter
 @Setter
@@ -27,4 +29,7 @@ public class Carro {
     private Double precio;
     private Integer kilometraje;
     private Boolean precioEsNegociable;
+
+    @ElementCollection
+    private List<String> imagenes;
 }

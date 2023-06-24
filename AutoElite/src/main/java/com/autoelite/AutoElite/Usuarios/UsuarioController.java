@@ -99,5 +99,19 @@ public class UsuarioController {
         }
     }
 
+    @DeleteMapping("/{userId}/favorites/remove/{publicationId}")
+    public ResponseEntity<?> removePublicationFromFavorites(@PathVariable("userId") String userId, @PathVariable("publicationId") String publicationId) {
+        try {
+            Usuario usuario = usuarioService.getUsuarioById(userId);
+            Publicacion publicacion = publicacionService.getPublicacionesById(publicationId);
+
+            if (usuario.getPublicacionesFavoritas().contains(publicacion)) {
+                usuario.getPublicacionesFavoritas().remove(publicacion);
+            }
+            return ResponseEntity.ok(publicacion);
+        } catch (NullPointerException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
 }
 
