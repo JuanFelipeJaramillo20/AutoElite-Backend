@@ -9,6 +9,8 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -116,6 +118,17 @@ public class PublicacionService {
 
     public List<Publicacion> getPublicacionesByIds(List<String> ids) {
         return publicacionDAO.findAllById(ids);
+    }
+
+    public List<Publicacion> getLastThree(){
+        List<Publicacion> publicaciones = publicacionDAO.findAll();
+        if (publicaciones.isEmpty()) {
+            throw new NullPointerException();
+        }else {
+            Collections.sort(publicaciones, Comparator.comparing(Publicacion::getFechaPublicacion).reversed());
+            List<Publicacion> ultimas3Publicaciones = publicaciones.subList(0, Math.min(3, publicaciones.size()));
+            return ultimas3Publicaciones;
+        }
     }
 
 }
