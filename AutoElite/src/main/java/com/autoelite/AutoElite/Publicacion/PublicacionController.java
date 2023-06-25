@@ -82,4 +82,12 @@ public class PublicacionController {
         }
     }
 
+    @GetMapping("/lastThree")
+    public ResponseEntity<?> getLastThree(){
+        try {
+            return ResponseEntity.ok(publicacionService.getLastThree());
+        }catch (NullPointerException e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorMessage("Publicaciones no encontradas"));
+        }
+    }
 }
