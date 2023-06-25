@@ -2,6 +2,7 @@ package com.autoelite.AutoElite.Publicacion;
 
 import com.autoelite.AutoElite.Carro.Carro;
 import com.autoelite.AutoElite.Usuarios.Usuario;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -21,6 +22,9 @@ public class Publicacion {
 
     @ManyToOne
     @JoinColumn(name = "usuario_email", referencedColumnName = "email", nullable = false)
+    @JsonIgnoreProperties({"contrasena","bloqueado","isEnabled","enabled","password",
+            "credentialsNonExpired","accountNonExpired","authorities","username","accountNonLocked",
+            "publicacionesFavoritas"})
     private Usuario usuarioPublicacion;
 
     @OneToOne
