@@ -4,11 +4,9 @@ import com.autoelite.AutoElite.Carro.Carro;
 import com.autoelite.AutoElite.Carro.CarroDAO;
 import com.autoelite.AutoElite.Usuarios.Usuario;
 import com.autoelite.AutoElite.Usuarios.UsuarioDAO;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
-import jakarta.persistence.Query;
-import jakarta.persistence.TypedQuery;
+import jakarta.persistence.*;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -33,17 +31,20 @@ public class PublicacionService {
         List<Publicacion> publicaciones = publicacionDAO.findAll();
         if (publicaciones.isEmpty()) {
             throw new NullPointerException();
-        }else {
+        } else {
             return publicacionDAO.findAll();
         }
     }
 
+    @Transactional
     public void deletePublicaciones(String id) {
-        String jpql = "DELETE * FROM usuario_publicacion WHERE publicacion_id = '" + id + "'";
-        Query query = entityManager.createQuery(jpql);
+        String sql = "DELETE FROM usuario_publicacion WHERE publicacion_id = :id";
+        Query query = entityManager.createNativeQuery(sql);
+        query.setParameter("id", id);
         query.executeUpdate();
         publicacionDAO.deleteById(id);
     }
+
     public boolean existsPublicacion(String id) {
         return publicacionDAO.existsById(id);
     }
@@ -125,11 +126,11 @@ public class PublicacionService {
         return publicacionDAO.findAllById(ids);
     }
 
-    public List<Publicacion> getLastThree(){
+    public List<Publicacion> getLastThree() {
         List<Publicacion> publicaciones = publicacionDAO.findAll();
         if (publicaciones.isEmpty()) {
             throw new NullPointerException();
-        }else {
+        } else {
             Collections.sort(publicaciones, Comparator.comparing(Publicacion::getFechaPublicacion).reversed());
             List<Publicacion> ultimas3Publicaciones = publicaciones.subList(0, Math.min(3, publicaciones.size()));
             return ultimas3Publicaciones;
