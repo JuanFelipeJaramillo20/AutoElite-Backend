@@ -119,4 +119,24 @@ public class UsuarioService {
             throw new RuntimeException("Usuario not found: " + usuarioId);
         }
     }
+
+    public Publicacion removeFromFavorites(String usuarioId, String publicacionId) {
+        try {
+            Usuario usuario = getUsuarioById(usuarioId);
+            Publicacion publicacion = publicacionDAO.getById(publicacionId);
+            if (usuario == null) {
+                throw new NullPointerException("No se encuentra el usuario.");
+            }
+            if (publicacion == null) {
+                throw new NullPointerException("No se encuentra la publicación.");
+            }
+            if (usuario.getPublicacionesFavoritas().contains(publicacion)) {
+                usuario.getPublicacionesFavoritas().remove(publicacion);
+                usuarioDAO.save(usuario);
+            }
+            return publicacion;
+        } catch (NullPointerException e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
 }

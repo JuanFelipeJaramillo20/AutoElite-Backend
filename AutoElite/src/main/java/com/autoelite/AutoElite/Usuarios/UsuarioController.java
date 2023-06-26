@@ -103,12 +103,11 @@ public class UsuarioController {
     public ResponseEntity<?> removePublicationFromFavorites(@PathVariable("userId") String userId, @PathVariable("publicationId") String publicationId) {
         try {
             Usuario usuario = usuarioService.getUsuarioById(userId);
-            Publicacion publicacion = publicacionService.getPublicacionesById(publicationId);
-
-            if (usuario.getPublicacionesFavoritas().contains(publicacion)) {
-                usuario.getPublicacionesFavoritas().remove(publicacion);
+            if (usuario == null) {
+                throw new NullPointerException("Usuario no encontrado");
             }
-            return ResponseEntity.ok(publicacion);
+            Publicacion eliminada = usuarioService.removeFromFavorites(userId, publicationId);
+            return ResponseEntity.ok(eliminada);
         } catch (NullPointerException e) {
             return ResponseEntity.notFound().build();
         }
