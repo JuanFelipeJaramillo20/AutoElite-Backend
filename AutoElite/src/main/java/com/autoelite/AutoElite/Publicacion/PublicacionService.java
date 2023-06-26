@@ -6,6 +6,7 @@ import com.autoelite.AutoElite.Usuarios.Usuario;
 import com.autoelite.AutoElite.Usuarios.UsuarioDAO;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
 import org.springframework.stereotype.Service;
 
@@ -36,6 +37,9 @@ public class PublicacionService {
     }
 
     public void deletePublicaciones(String id) {
+        String jpql = "DELETE * FROM usuario_publicacion WHERE publicacion_id = '" + id + "'";
+        Query query = entityManager.createQuery(jpql);
+        query.executeUpdate();
         publicacionDAO.deleteById(id);
     }
     public boolean existsPublicacion(String id) {
