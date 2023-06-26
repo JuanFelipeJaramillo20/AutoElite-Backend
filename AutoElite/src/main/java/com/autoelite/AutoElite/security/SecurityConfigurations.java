@@ -49,6 +49,7 @@ public class SecurityConfigurations {
                 .requestMatchers(HttpMethod.DELETE, "/api/v1/publicaciones/**").authenticated()
                 .requestMatchers(HttpMethod.POST, "/api/v1/reporte").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/v1/reporte/**").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/v1/reporte/byPublicacion/**").permitAll()
                 .requestMatchers(HttpMethod.DELETE, "/api/v1/reporte/**").permitAll()
                 .requestMatchers(HttpMethod.POST, "/api/v1/contacto").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/v1/contacto").permitAll()

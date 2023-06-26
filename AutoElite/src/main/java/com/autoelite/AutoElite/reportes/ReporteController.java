@@ -35,6 +35,16 @@ public class ReporteController {
         }
     }
 
+    @GetMapping("/byPublicacion/{idPublicacion}")
+    public ResponseEntity<?> getReporteByIdPublicacion(@PathVariable("idPublicacion") String id) {
+        try {
+            return ResponseEntity.ok(reporteService.getReporteByIdPublicacion(id));
+        }catch (NullPointerException e){
+            String errorMessage = "Reporte no encontrado con id de la publicacion: " + id;
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorMessage(errorMessage));
+        }
+    }
+
     @PostMapping
     public ResponseEntity<?> addReporte(@RequestBody ReporteRequest request) {
         reporteService.addReporte(request);
