@@ -2,6 +2,8 @@ package com.autoelite.AutoElite.Carro;
 
 import lombok.*;
 
+import java.util.List;
+
 @Getter
 @Setter
 @ToString
@@ -24,6 +26,8 @@ public class CarroRequest {
     private Double precio;
     private Integer kilometraje;
     private Boolean precioEsNegociable;
+
+    private List<String> imagenes;
 
     // Constructors, getters, and setters
 }
