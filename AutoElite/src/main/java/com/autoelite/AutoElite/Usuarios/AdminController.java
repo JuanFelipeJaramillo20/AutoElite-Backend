@@ -7,7 +7,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import java.util.List;
 
 @RestController
-@RequestMapping("/admin")
+@RequestMapping("api/v1/admin")
 public class AdminController {
 
     private final UsuarioService userService;

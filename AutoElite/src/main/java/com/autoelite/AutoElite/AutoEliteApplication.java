@@ -11,9 +11,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @SpringBootApplication
 @PropertySources({
-        @PropertySource("classpath:application.properties"),
-        //@PropertySource("classpath:application-secret.properties"),
-        @PropertySource("classpath:application-local.properties")
+		@PropertySource("classpath:application.properties"),
+		@PropertySource("classpath:application-secret.properties"),
+		//@PropertySource("classpath:application-local.properties")
 })
 public class AutoEliteApplication {
 	public static void main(String[] args) {
