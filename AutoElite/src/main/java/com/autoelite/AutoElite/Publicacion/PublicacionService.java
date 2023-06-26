@@ -91,6 +91,7 @@ public class PublicacionService {
         carro.setPrecio(publicacionRequest.getCarro().getPrecio());
         carro.setKilometraje(publicacionRequest.getCarro().getKilometraje());
         carro.setPrecioEsNegociable(publicacionRequest.getCarro().getPrecioEsNegociable());
+        carro.setImagenes(publicacionRequest.getCarro().getImagenes());
         carroDAO.save(carro);
 
         Publicacion publicacion = new Publicacion();
