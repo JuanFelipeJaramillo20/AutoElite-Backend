@@ -12,8 +12,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @SpringBootApplication
 @PropertySources({
 		@PropertySource("classpath:application.properties"),
-		@PropertySource("classpath:application-secret.properties"),
-		//@PropertySource("classpath:application-local.properties")
+		//@PropertySource("classpath:application-secret.properties"),
+		@PropertySource("classpath:application-local.properties")
 })
 public class AutoEliteApplication {
 	public static void main(String[] args) {
@@ -27,7 +27,7 @@ public class AutoEliteApplication {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
 				registry.addMapping("/**")
-						.allowedOrigins("*")
+						.allowedOrigins("http://localhost:5173")
 						.allowedMethods("GET", "POST", "PUT", "DELETE")
 						.allowedHeaders("*");
 			}
