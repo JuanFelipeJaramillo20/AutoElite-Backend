@@ -5,8 +5,10 @@ import com.autoelite.AutoElite.Publicacion.PublicacionDAO;
 import com.autoelite.AutoElite.errores.ErrorMessage;
 import com.autoelite.AutoElite.security.ConfirmationMessage;
 import com.autoelite.AutoElite.security.SecurityConfigurations;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.Query;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -22,9 +24,10 @@ public class UsuarioService {
 
     private final UsuarioDAO usuarioDAO;
     private final PublicacionDAO publicacionDAO;
-
     @Autowired
     private SecurityConfigurations securityConfigurations;
+    @PersistenceContext
+    private EntityManager entityManager;
 
     public UsuarioService(UsuarioDAO usuarioDAO, PublicacionDAO publicacionDAO) {
         this.usuarioDAO = usuarioDAO;
@@ -53,6 +56,11 @@ public class UsuarioService {
     }
 
     public void deleteUsuario(String id) {
+
+        String sql = "DELETE FROM calificacion WHERE sender = :id OR receiver = :id";
+        Query query = entityManager.createNativeQuery(sql);
+        query.setParameter("id", id);
+        query.executeUpdate();
         usuarioDAO.deleteById(id);
     }
 
