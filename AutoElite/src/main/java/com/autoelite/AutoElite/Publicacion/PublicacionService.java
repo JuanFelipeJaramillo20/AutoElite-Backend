@@ -8,6 +8,7 @@ import jakarta.persistence.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.swing.text.html.Option;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -38,6 +39,13 @@ public class PublicacionService {
 
     @Transactional
     public void deletePublicaciones(String id) {
+        Publicacion publicacion = getPublicacionesById(id);
+        if (publicacion != null) {
+            Carro carro = publicacion.getCarroPublicacion();
+            if (carro != null) {
+                carroDAO.deleteById(carro.getPlaca());
+            }
+        }
         String sql = "DELETE FROM usuario_publicacion WHERE publicacion_id = :id";
         Query query = entityManager.createNativeQuery(sql);
         query.setParameter("id", id);
