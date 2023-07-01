@@ -42,6 +42,10 @@ public class PublicacionService {
         Query query = entityManager.createNativeQuery(sql);
         query.setParameter("id", id);
         query.executeUpdate();
+        String sql1 = "DELETE FROM reporte WHERE publicacion_id = :id";
+        Query query1 = entityManager.createNativeQuery(sql1);
+        query1.setParameter("id", id);
+        query1.executeUpdate();
         publicacionDAO.deleteById(id);
     }
 
