@@ -44,6 +44,7 @@ public class PublicacionService {
             Carro carro = publicacion.getCarroPublicacion();
             if (carro != null) {
                 carroDAO.deleteById(carro.getPlaca());
+                publicacion.setCarroPublicacion(null);
             }
         }
         String sql = "DELETE FROM usuario_publicacion WHERE publicacion_id = :id";
