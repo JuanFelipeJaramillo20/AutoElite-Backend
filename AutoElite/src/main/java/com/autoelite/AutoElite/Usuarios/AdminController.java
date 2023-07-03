@@ -1,5 +1,6 @@
 package com.autoelite.AutoElite.Usuarios;
 
+import com.autoelite.AutoElite.security.ConfirmationMessage;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -49,10 +50,10 @@ public class AdminController {
 
     @DeleteMapping("/users/{userId}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Void> deleteUserAsAdmin(@PathVariable String userId) {
+    public ResponseEntity<?> deleteUserAsAdmin(@PathVariable String userId) {
         boolean deleted = adminService.deleteUserAsAdmin(userId);
         if (deleted) {
-            return ResponseEntity.noContent().build();
+            return ResponseEntity.ok(new ConfirmationMessage("Usuario con ID " + userId + " ha sido eliminado exitosamente"));
         } else {
             return ResponseEntity.notFound().build();
         }

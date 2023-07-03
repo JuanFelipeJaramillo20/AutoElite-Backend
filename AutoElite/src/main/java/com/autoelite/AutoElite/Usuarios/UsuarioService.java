@@ -2,20 +2,15 @@ package com.autoelite.AutoElite.Usuarios;
 
 import com.autoelite.AutoElite.Publicacion.Publicacion;
 import com.autoelite.AutoElite.Publicacion.PublicacionDAO;
-import com.autoelite.AutoElite.errores.ErrorMessage;
-import com.autoelite.AutoElite.security.ConfirmationMessage;
 import com.autoelite.AutoElite.security.SecurityConfigurations;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -56,22 +51,17 @@ public class UsuarioService {
         usuarioDAO.save(usuario);
     }
 
+    @Transactional
     public void deleteUsuario(String id) {
-        EntityTransaction transaction = entityManager.getTransaction();
         try {
             String sql = "DELETE FROM calificacion WHERE sender = :id OR receiver = :id";
             Query query = entityManager.createNativeQuery(sql);
-            query.setParameter("id", id);
+            query.setParameter("id", Long.parseLong(id));
             query.executeUpdate();
             usuarioDAO.deleteById(id);
-            transaction.commit();
         } catch (Exception e) {
-            if (transaction != null && transaction.isActive()) {
-                transaction.rollback();
-            }
             System.err.println(e.getMessage());
         }
-
     }
 
     public boolean existsUsuario(String id) {
