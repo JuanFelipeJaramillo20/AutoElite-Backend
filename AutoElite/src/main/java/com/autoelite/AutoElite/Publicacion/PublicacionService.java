@@ -43,8 +43,9 @@ public class PublicacionService {
         if (publicacion != null) {
             Carro carro = publicacion.getCarroPublicacion();
             if (carro != null) {
-                carroDAO.deleteById(carro.getPlaca());
                 publicacion.setCarroPublicacion(null);
+                publicacionDAO.save(publicacion);
+                carroDAO.deleteById(carro.getPlaca());
             }
         }
         String sql = "DELETE FROM usuario_publicacion WHERE publicacion_id = :id";
@@ -57,6 +58,7 @@ public class PublicacionService {
         query1.executeUpdate();
         publicacionDAO.deleteById(id);
     }
+
 
     public boolean existsPublicacion(String id) {
         return publicacionDAO.existsById(id);
