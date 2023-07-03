@@ -1,5 +1,6 @@
 package com.autoelite.AutoElite.mensajeVendedor;
 
+import com.autoelite.AutoElite.Publicacion.Publicacion;
 import com.autoelite.AutoElite.Usuarios.Usuario;
 import com.autoelite.AutoElite.Usuarios.UsuarioDAO;
 import com.autoelite.AutoElite.errores.ErrorMessage;
@@ -7,9 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class MensajeVendedorService {
@@ -28,6 +27,7 @@ public class MensajeVendedorService {
             ErrorMessage mensaje = new ErrorMessage("Mensajes no encontrados");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(mensaje);
         }
+        Collections.sort(findReceiver, Comparator.comparing(MensajeVendedor::getFecha).reversed());
         return ResponseEntity.ok().body(findReceiver);
     }
 
@@ -46,13 +46,15 @@ public class MensajeVendedorService {
         }
 
         Date fechaActual = new Date();
-        MensajeVendedor mensajeVendedor = new MensajeVendedor();
-        mensajeVendedor.setSender(sender);
-        mensajeVendedor.setReceiver(receiver);
-        mensajeVendedor.setFecha(fechaActual);
-        mensajeVendedor.setMensaje(mensajeVendedorRequest.getMensaje());
-        mensajeVendedor.setTelefono(mensajeVendedorRequest.getTelefono());
-        mensajeVendedorDAO.save(mensajeVendedor);
+        MensajeVendedor mensaje = new MensajeVendedor();
+        mensaje.setSender(sender);
+        mensaje.setReceiver(receiver);
+        mensaje.setFecha(fechaActual);
+        mensaje.setMensaje(mensajeVendedorRequest.getMensaje());
+        mensaje.setAsunto(mensajeVendedorRequest.getAsunto());
+        mensaje.setTelefono(mensajeVendedorRequest.getTelefono());
+        mensaje.setEmail(mensajeVendedorRequest.getEmail());
+        mensajeVendedorDAO.save(mensaje);
 
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }

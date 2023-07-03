@@ -14,6 +14,7 @@ public class MensajeVendedorRequest {
     private String telefono;
     private String email;
     private String mensaje;
+    private String asunto;
     private String sender;
     private String receiver;
 
