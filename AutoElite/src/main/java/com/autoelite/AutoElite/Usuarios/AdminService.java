@@ -2,11 +2,11 @@ package com.autoelite.AutoElite.Usuarios;
 
 import com.autoelite.AutoElite.security.SecurityConfigurations;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -55,23 +55,19 @@ public class AdminService {
         return null;
     }
 
-    public boolean deleteUserAsAdmin(String userId) {
-        EntityTransaction transaction = entityManager.getTransaction();
+    @Transactional
+    public boolean deleteUserAsAdmin(String id) {
         try {
             String sql = "DELETE FROM calificacion WHERE sender = :id OR receiver = :id";
             Query query = entityManager.createNativeQuery(sql);
-            query.setParameter("id", userId);
+            query.setParameter("id", Long.parseLong(id));
             query.executeUpdate();
-            Usuario existingUser = usuarioRepository.findById(userId).orElse(null);
+            Usuario existingUser = usuarioRepository.findById(id).orElse(null);
             if (existingUser != null) {
                 usuarioRepository.delete(existingUser);
                 return true;
             }
-            transaction.commit();
         } catch (Exception e) {
-            if (transaction != null && transaction.isActive()) {
-                transaction.rollback();
-            }
             System.err.println(e.getMessage());
         }
         return false;

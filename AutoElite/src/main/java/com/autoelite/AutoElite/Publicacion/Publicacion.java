@@ -28,7 +28,7 @@ public class Publicacion {
     private Usuario usuarioPublicacion;
 
     @OneToOne
-    @JoinColumn(name = "car_id", nullable = false)
+    @JoinColumn(name = "car_id")
     private Carro carroPublicacion;
 
     private String descripcion;
