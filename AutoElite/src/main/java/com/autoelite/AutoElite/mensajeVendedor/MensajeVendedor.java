@@ -1,10 +1,11 @@
-package com.autoelite.AutoElite.reportes;
+package com.autoelite.AutoElite.mensajeVendedor;
 
-import com.autoelite.AutoElite.Publicacion.Publicacion;
 import com.autoelite.AutoElite.Usuarios.Usuario;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.Date;
 
 @EqualsAndHashCode
 @ToString
@@ -13,19 +14,28 @@ import lombok.*;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-public class Reporte {
+public class MensajeVendedor {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private long id;
 
-    private String comentarios;
+    private String telefono;
+    private String email;
+    private String mensaje;
+    private String asunto;
+
+    @ManyToOne
     @JsonIgnoreProperties({"contrasena","bloqueado","isEnabled","enabled","password",
             "credentialsNonExpired","accountNonExpired","authorities","username","accountNonLocked",
             "publicacionesFavoritas"})
-    private Usuario usuarioReporta;
+    private Usuario sender;
 
     @ManyToOne
-    @JoinColumn(name = "publicacion_id", referencedColumnName = "id", nullable = false)
-    private Publicacion reportePublicacion;
+    @JsonIgnoreProperties({"contrasena","bloqueado","isEnabled","enabled","password",
+            "credentialsNonExpired","accountNonExpired","authorities","username","accountNonLocked",
+            "publicacionesFavoritas"})
+    private Usuario receiver;
+    private Date fecha;
+
 }

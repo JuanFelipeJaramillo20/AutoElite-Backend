@@ -1,4 +1,4 @@
-package com.autoelite.AutoElite.Calificacion;
+package com.autoelite.AutoElite.mensajeVendedor;
 
 import com.autoelite.AutoElite.Usuarios.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -7,8 +7,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface CalificacionDAO extends JpaRepository<Calificacion, String> {
-
-    List<Calificacion> findByReceiver(Usuario receiver);
-
+public interface MensajeVendedorDAO extends JpaRepository<MensajeVendedor, String> {
+    List<MensajeVendedor> findByReceiver(Usuario receiver);
 }
