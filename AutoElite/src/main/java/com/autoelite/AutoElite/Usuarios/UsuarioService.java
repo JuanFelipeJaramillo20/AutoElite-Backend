@@ -6,6 +6,7 @@ import com.autoelite.AutoElite.errores.ErrorMessage;
 import com.autoelite.AutoElite.security.ConfirmationMessage;
 import com.autoelite.AutoElite.security.SecurityConfigurations;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,12 +57,21 @@ public class UsuarioService {
     }
 
     public void deleteUsuario(String id) {
+        EntityTransaction transaction = entityManager.getTransaction();
+        try {
+            String sql = "DELETE FROM calificacion WHERE sender = :id OR receiver = :id";
+            Query query = entityManager.createNativeQuery(sql);
+            query.setParameter("id", id);
+            query.executeUpdate();
+            usuarioDAO.deleteById(id);
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null && transaction.isActive()) {
+                transaction.rollback();
+            }
+            System.err.println(e.getMessage());
+        }
 
-        String sql = "DELETE FROM calificacion WHERE sender = :id OR receiver = :id";
-        Query query = entityManager.createNativeQuery(sql);
-        query.setParameter("id", id);
-        query.executeUpdate();
-        usuarioDAO.deleteById(id);
     }
 
     public boolean existsUsuario(String id) {

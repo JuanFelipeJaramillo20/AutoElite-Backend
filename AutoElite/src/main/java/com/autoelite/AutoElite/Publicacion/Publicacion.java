@@ -21,9 +21,9 @@ public class Publicacion {
     private String ciudad;
 
     @ManyToOne
-    @JoinColumn(name = "usuario_email", referencedColumnName = "email", nullable = false)
-    @JsonIgnoreProperties({"contrasena","bloqueado","isEnabled","enabled","password",
-            "credentialsNonExpired","accountNonExpired","authorities","username","accountNonLocked",
+    @JoinColumn(name = "usuario_email", referencedColumnName = "email")
+    @JsonIgnoreProperties({"contrasena", "bloqueado", "isEnabled", "enabled", "password",
+            "credentialsNonExpired", "accountNonExpired", "authorities", "username", "accountNonLocked",
             "publicacionesFavoritas"})
     private Usuario usuarioPublicacion;
 
